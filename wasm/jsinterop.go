@@ -1,12 +1,25 @@
 // +build js,wasm
+
 package main
 
 import (
 	"syscall/js"
 )
 
+var (
+	console  = js.Global().Get("console")
+	document = js.Global().Get("document")
+	alert    = js.Global().Get("alert")
+)
+
 func main() {
-	js.Global().Get("console").Call("log", "Hello world Go/wasm!")
-	js.Global().Get("document").Call("getElementById", "app").Set("innerText", "Hello world")
-	js.Global().Get("alert").Invoke("Hello world")
+	console.Call("log", "Hello world Go/wasm!")
+
+	alert.Invoke("Hello world")
+
+	app := document.Call("getElementById", "app")
+	app.Set("innerText", "Hello world")
+
+	document.Call("querySelector", "body").Get("style").Set("background", "green")
+
 }
